@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workout Tracker with Images</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: url('background.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+    }
+    h1 {
+      text-align: center;
+      color: #fff;
+    }
+    select {
+      display: block;
+      margin: 20px auto;
+      padding: 10px;
+      font-size: 16px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+    }
+    .day {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 15px;
+      margin: 20px auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+      width: 90%;
+      max-width: 600px;
+    }
+    label {
+      display: block;
+      margin: 8px 0;
+    }
+    .completed {
+      text-decoration: line-through;
+      color: #90ee90;
+    }
+    .preview-img {
+      max-width: 100%;
+      margin: 10px 0;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Workout Tracker</h1>
+  <select id="daySelector">
+    <option value="">-- Select a Day --</option>
+    <option value="Wednesday">Wednesday</option>
+  </select>
+
+  <div id="workout-container" class="day" style="display:none;"></div>
+
+  <script>
+    const weeklyPlan = {
+      "Wednesday": [
+        {
+          name: "Warm-up (Cycling 10 min)",
+          image: "https://upload.wikimedia.org/wikipedia/commons/8/8e/Indoorcycling.jpg"
+        },
+        {
+          name: "Chest Press Machine – 3 sets of 12",
+          image: "https://upload.wikimedia.org/wikipedia/commons/1/1b/Chest_press_machine.jpg"
+        },
+        {
+          name: "Seated Row Machine – 3 sets of 12",
+          image: "https://upload.wikimedia.org/wikipedia/commons/e/ef/Seated_row_machine.jpg"
+        },
+        {
+          name: "Shoulder Press – 3 sets of 12",
+          image: "https://upload.wikimedia.org/wikipedia/commons/5/5a/Shoulder_press_machine.jpg"
+        }
+      ]
+    };
+
+    document.getElementById("daySelector").addEventListener("change", function() {
+      const selectedDay = this.value;
+      const container = document.getElementById("workout-container");
+      container.innerHTML = "";
+      if (selectedDay && weeklyPlan[selectedDay]) {
+        weeklyPlan[selectedDay].forEach((exercise, idx) => {
+          const checkboxId = `${selectedDay}-${idx}`;
+          const label = document.createElement("label");
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.id = checkboxId;
+          checkbox.checked = localStorage.getItem(checkboxId) === "true";
+          checkbox.onchange = () => {
+            localStorage.setItem(checkboxId, checkbox.checked);
+            label.classList.toggle("completed", checkbox.checked);
+          };
+          if (checkbox.checked) {
+            label.classList.add("completed");
+          }
+          label.appendChild(checkbox);
+          label.appendChild(document.createTextNode(" " + exercise.name));
+          container.appendChild(label);
+
+          const img = document.createElement("img");
+          img.src = exercise.image;
+          img.className = "preview-img";
+          container.appendChild(img);
+        });
+        container.style.display = "block";
+      } else {
+        container.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
