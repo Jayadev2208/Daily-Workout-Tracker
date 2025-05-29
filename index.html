@@ -4,13 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Full Week Workout Tracker</title>
+  <title>Workout Tracker</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 20px;
-      background: url('background.jpeg') no-repeat center center fixed;
+      background: url('background.jpg') no-repeat center center fixed;
       background-size: cover;
       color: #fff;
     }
@@ -45,11 +45,6 @@
       text-decoration: line-through;
       color: #90ee90;
     }
-    .preview-img {
-      max-width: 100%;
-      margin: 10px 0;
-      border-radius: 8px;
-    }
   </style>
 </head>
 <body>
@@ -70,33 +65,51 @@
   <script>
     const weeklyPlan = {
       "Monday": [
-        { name: "Bodyweight Squats – 3 sets of 15", image: "https://www.bodybuilding.com/images/2021/june/bodyweight-squats-830x467.jpg" },
-        { name: "Lat Pulldown – 3 sets of 12", image: "https://www.inspireusafoundation.org/wp-content/uploads/2022/11/lat-pulldown.jpg" }
+        "Warm-up (Treadmill 10 min)",
+        "Bodyweight Squats – 3 sets of 15",
+        "Lat Pulldown – 3 sets of 12",
+        "Dumbbell Bench Press – 3 sets of 12",
+        "Glute Bridges – 3 sets of 15",
+        "Elliptical – 20 min",
+        "Stretch – 5 min"
       ],
       "Tuesday": [
-        { name: "Plank – 3 sets of 30 sec", image: "https://www.verywellfit.com/thmb/qgDLaNTBq6P_h9gJP_zxtUOzDY8=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/VWF-core-plank-56a9266f3df78cf772a35265.jpg" },
-        { name: "Leg Raises – 3 sets of 15", image: "https://www.inspireusafoundation.org/wp-content/uploads/2022/10/lying-leg-raise.jpg" }
+        "Walk – 20 min",
+        "Plank – 3 sets of 30 sec",
+        "Leg Raises – 3 sets of 15",
+        "Seated Cycle – 20 min",
+        "Stretch – 10 min"
       ],
       "Wednesday": [
-        { name: "Warm-up (Cycling 10 min)", image: "https://upload.wikimedia.org/wikipedia/commons/8/8e/Indoorcycling.jpg" },
-        { name: "Chest Press Machine – 3 sets of 12", image: "https://upload.wikimedia.org/wikipedia/commons/1/1b/Chest_press_machine.jpg" },
-        { name: "Seated Row Machine – 3 sets of 12", image: "https://upload.wikimedia.org/wikipedia/commons/e/ef/Seated_row_machine.jpg" },
-        { name: "Shoulder Press – 3 sets of 12", image: "https://upload.wikimedia.org/wikipedia/commons/5/5a/Shoulder_press_machine.jpg" }
+        "Warm-up (Cycling 10 min)",
+        "Chest Press Machine – 3 sets of 12",
+        "Seated Row Machine – 3 sets of 12",
+        "Shoulder Press – 3 sets of 12",
+        "Low Impact HIIT – 15 min",
+        "Stretch – 10 min"
       ],
       "Thursday": [
-        { name: "Brisk Walk – 30 min", image: "https://www.cdc.gov/physicalactivity/images/walking-man.jpg" },
-        { name: "Stretching – 15 min", image: "https://www.inspireusafoundation.org/wp-content/uploads/2023/01/full-body-stretch.jpg" }
+        "Brisk Walk – 30 min",
+        "Foam Rolling – 10 min",
+        "Stretching – 15 min"
       ],
       "Friday": [
-        { name: "Leg Press Machine – 3 sets of 12", image: "https://www.inspireusafoundation.org/wp-content/uploads/2022/11/leg-press.jpg" },
-        { name: "Step-ups – 3 sets of 15", image: "https://www.inspireusafoundation.org/wp-content/uploads/2022/10/dumbbell-step-up.jpg" }
+        "Leg Press Machine – 3 sets of 12",
+        "Glute Kickbacks – 3 sets of 15",
+        "Wall Sits – 3 sets of 30 sec",
+        "Step-ups – 3 sets of 15",
+        "Elliptical – 15 min",
+        "Stretch – 10 min"
       ],
       "Saturday": [
-        { name: "Incline Treadmill Walk – 20 min", image: "https://www.inspireusafoundation.org/wp-content/uploads/2022/10/incline-treadmill-walking.jpg" },
-        { name: "Russian Twists – 3 sets of 20", image: "https://www.inspireusafoundation.org/wp-content/uploads/2022/10/russian-twist.jpg" }
+        "Treadmill Incline Walk – 20 min",
+        "Russian Twists – 3 sets of 20",
+        "Leg Raises – 3 sets of 15",
+        "Plank – 3 sets of 30 sec",
+        "Stretch – 10 min"
       ],
       "Sunday": [
-        { name: "Rest Day – Enjoy!", image: "https://cdn.pixabay.com/photo/2017/01/20/00/30/beach-1990267_1280.jpg" }
+        "Rest Day – Enjoy!"
       ]
     };
 
@@ -120,13 +133,8 @@
             label.classList.add("completed");
           }
           label.appendChild(checkbox);
-          label.appendChild(document.createTextNode(" " + exercise.name));
+          label.appendChild(document.createTextNode(" " + exercise));
           container.appendChild(label);
-
-          const img = document.createElement("img");
-          img.src = exercise.image;
-          img.className = "preview-img";
-          container.appendChild(img);
         });
         container.style.display = "block";
       } else {
