@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workout Tracker</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f0f0f0;
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+    .day {
+      background: #fff;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #0077cc;
+    }
+    label {
+      display: block;
+      margin: 8px 0;
+    }
+    .completed {
+      text-decoration: line-through;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h1>Weekly Workout Tracker</h1>
+  <div id="workout-container"></div>
+
+  <script>
+    const weeklyPlan = {
+      "Monday": [
+        "Warm-up (Treadmill 10 min)",
+        "Bodyweight Squats – 3 sets of 15",
+        "Lat Pulldown – 3 sets of 12",
+        "Dumbbell Bench Press – 3 sets of 12",
+        "Glute Bridges – 3 sets of 15",
+        "Elliptical – 20 min",
+        "Stretch – 5 min"
+      ],
+      "Tuesday": [
+        "Walk – 20 min",
+        "Plank – 3 sets of 30 sec",
+        "Leg Raises – 3 sets of 15",
+        "Seated Cycle – 20 min",
+        "Stretch – 10 min"
+      ],
+      "Wednesday": [
+        "Warm-up (Cycling 10 min)",
+        "Chest Press Machine – 3 sets of 12",
+        "Seated Row Machine – 3 sets of 12",
+        "Shoulder Press – 3 sets of 12",
+        "Low Impact HIIT – 15 min",
+        "Stretch – 10 min"
+      ],
+      "Thursday": [
+        "Brisk Walk – 30 min",
+        "Foam Rolling – 10 min",
+        "Stretching – 15 min"
+      ],
+      "Friday": [
+        "Leg Press Machine – 3 sets of 12",
+        "Glute Kickbacks – 3 sets of 15",
+        "Wall Sits – 3 sets of 30 sec",
+        "Step-ups – 3 sets of 15",
+        "Elliptical – 15 min",
+        "Stretch – 10 min"
+      ],
+      "Saturday": [
+        "Treadmill Incline Walk – 20 min",
+        "Russian Twists – 3 sets of 20",
+        "Leg Raises – 3 sets of 15",
+        "Plank – 3 sets of 30 sec",
+        "Stretch – 10 min"
+      ],
+      "Sunday": [
+        "Rest Day – Enjoy!"
+      ]
+    };
+
+    const container = document.getElementById("workout-container");
+
+    Object.entries(weeklyPlan).forEach(([day, exercises]) => {
+      const dayDiv = document.createElement("div");
+      dayDiv.className = "day";
+
+      const title = document.createElement("h2");
+      title.textContent = day;
+      dayDiv.appendChild(title);
+
+      exercises.forEach((exercise, idx) => {
+        const checkboxId = `${day}-${idx}`;
+        const label = document.createElement("label");
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = checkboxId;
+        checkbox.checked = localStorage.getItem(checkboxId) === "true";
+        checkbox.onchange = () => {
+          localStorage.setItem(checkboxId, checkbox.checked);
+          label.classList.toggle("completed", checkbox.checked);
+        };
+        if (checkbox.checked) {
+          label.classList.add("completed");
+        }
+        label.appendChild(checkbox);
+        label.appendChild(document.createTextNode(" " + exercise));
+        dayDiv.appendChild(label);
+      });
+
+      container.appendChild(dayDiv);
+    });
+  </script>
+</body>
+</html>
