@@ -1,29 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Workout Tracker</title>
-  <link rel="manifest" href="manifest.json">
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 20px;
-      background: #f0f0f0;
+      margin: 0;
+      padding: 20px;
+      background: url('background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
     }
     h1 {
-      color: #333;
       text-align: center;
+      color: #fff;
+    }
+    select {
+      display: block;
+      margin: 20px auto;
+      padding: 10px;
+      font-size: 16px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
     }
     .day {
-      background: #fff;
+      background: rgba(0, 0, 0, 0.6);
       padding: 15px;
-      margin-bottom: 15px;
+      margin: 20px auto;
       border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    h2 {
-      color: #0077cc;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+      width: 90%;
+      max-width: 600px;
     }
     label {
       display: block;
@@ -31,13 +42,24 @@
     }
     .completed {
       text-decoration: line-through;
-      color: green;
+      color: #90ee90;
     }
   </style>
 </head>
 <body>
-  <h1>Weekly Workout Tracker</h1>
-  <div id="workout-container"></div>
+  <h1>Workout Tracker</h1>
+  <select id="daySelector">
+    <option value="">-- Select a Day --</option>
+    <option value="Monday">Monday</option>
+    <option value="Tuesday">Tuesday</option>
+    <option value="Wednesday">Wednesday</option>
+    <option value="Thursday">Thursday</option>
+    <option value="Friday">Friday</option>
+    <option value="Saturday">Saturday</option>
+    <option value="Sunday">Sunday</option>
+  </select>
+
+  <div id="workout-container" class="day" style="display:none;"></div>
 
   <script>
     const weeklyPlan = {
@@ -90,36 +112,33 @@
       ]
     };
 
-    const container = document.getElementById("workout-container");
-
-    Object.entries(weeklyPlan).forEach(([day, exercises]) => {
-      const dayDiv = document.createElement("div");
-      dayDiv.className = "day";
-
-      const title = document.createElement("h2");
-      title.textContent = day;
-      dayDiv.appendChild(title);
-
-      exercises.forEach((exercise, idx) => {
-        const checkboxId = `${day}-${idx}`;
-        const label = document.createElement("label");
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.id = checkboxId;
-        checkbox.checked = localStorage.getItem(checkboxId) === "true";
-        checkbox.onchange = () => {
-          localStorage.setItem(checkboxId, checkbox.checked);
-          label.classList.toggle("completed", checkbox.checked);
-        };
-        if (checkbox.checked) {
-          label.classList.add("completed");
-        }
-        label.appendChild(checkbox);
-        label.appendChild(document.createTextNode(" " + exercise));
-        dayDiv.appendChild(label);
-      });
-
-      container.appendChild(dayDiv);
+    document.getElementById("daySelector").addEventListener("change", function() {
+      const selectedDay = this.value;
+      const container = document.getElementById("workout-container");
+      container.innerHTML = "";
+      if (selectedDay && weeklyPlan[selectedDay]) {
+        weeklyPlan[selectedDay].forEach((exercise, idx) => {
+          const checkboxId = `${selectedDay}-${idx}`;
+          const label = document.createElement("label");
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.id = checkboxId;
+          checkbox.checked = localStorage.getItem(checkboxId) === "true";
+          checkbox.onchange = () => {
+            localStorage.setItem(checkboxId, checkbox.checked);
+            label.classList.toggle("completed", checkbox.checked);
+          };
+          if (checkbox.checked) {
+            label.classList.add("completed");
+          }
+          label.appendChild(checkbox);
+          label.appendChild(document.createTextNode(" " + exercise));
+          container.appendChild(label);
+        });
+        container.style.display = "block";
+      } else {
+        container.style.display = "none";
+      }
     });
   </script>
 </body>
